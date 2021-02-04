@@ -45,6 +45,6 @@ WHERE `library_register`.`return_date` < NOW() OR `library_register`.`date_of_th
 -- Il faudra pouvoir afficher le nombre total de livres par genre (nom du genre, total de livres correspondants)
 SELECT COUNT(*) AS `number_books`, `library_book_kind`.`book_kind_name`
 FROM `library_book_kind`
-INNER JOIN `contain` ON `contain`.id = `library_book_kind`.id
-INNER JOIN `library_books` ON `library_books`.id = `contain`.`id_library_books`
+INNER JOIN `contain` ON `contain`.`id` = `library_book_kind`.`id`
+INNER JOIN `library_books` ON `library_books`.`id` = `contain`.`id_library_books`
 GROUP BY `library_books`.`book_title`;

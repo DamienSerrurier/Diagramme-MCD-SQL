@@ -35,23 +35,23 @@
 --        3 Il faudra pouvoir afficher les clients par type de bien qu'ils recherchent (nom et prénom du client, type de bien, budget)
 
 -- 1 Il faudra pouvoir afficher tous les biens par ordre de prix (nom du bien, son type, son code postal, son prix)
-SELECT `estate_type_name`, `estate_name`, `estate_zipcode`, `prix`
+SELECT `estate`.`estate_name`, `estate_type`.`estate_type_name`, `estate`.`estate_zipcode`, `estate`.`price`
 FROM `estate`
-INNER JOIN `estet_type` 
-ON `estet_type`.`id` = `estate`.`id_estet_type`
-ORDER BY `prix`;
+INNER JOIN `estate_type` ON `estate`.`id_estate_type` = `estate`.`id_estate_type`
+ORDER BY `estate`.`price`;
 
 -- 2 Il faudra pouvoir afficher les rendez-vous par ordre chronologique (date et créneau horaire du rendez-vous, nom du bien, son type, son code postal, son prix, nom et prénom du client)
-SELECT `estate_type_name`, `estate_name`, `estate_zipcode`, `prix`, `client_lastname`, `client_firstname`,`time_slot`, `appointment`
-FROM estate
-INNER JOIN `estet_type` ON `estet_type`.`id` = `estate`.`id_estet_type`
-INNER JOIN `appointment` ON `estate`.`id` = `appointment`.`id_estate`
-INNER JOIN `appointments_timeslot` on `appointment`.`id_appointments_timeslot` = `appointments_timeslot`.`id`
-INNER JOIN `clients` on `appointment`.`id_Clients` = `clients`.`id`
+SELECT `appointment`.`appointment`, `appointments_timeslot`.`time_slot`, `estate`.`estate_name`, `estate_type`.`estate_type_name`, `estate`.`estate_zipcode`, `estate`.`price`,
+`clients`.`client_lastname`, `clients`.`client_firstname`
+FROM `appointment`
+INNER JOIN `appointments_timeslot` ON `appointments_timeslot`.`id` = `appointment`.`id_appointments_timeslot`
+INNER JOIN `estate` ON `estate`.`id` = `appointments_timeslot`.`id`
+INNER JOIN `estate_type` ON `estate_type`.`id` = `estate`.`id_estate_type`
+INNER JOIN `clients` ON `clients`.`id` = `estate_type`.``id``
 ORDER BY `appointment`.`appointment`;
 
 -- 3 Il faudra pouvoir afficher les clients par type de bien qu'ils recherchent (nom et prénom du client, type de bien, budget)
-SELECT `client_lastname`, `client_firstname`, `client_budget`, `estate_type_name`
+SELECT `clients`.`client_lastname`, `clients`.`client_firstname`, `clients`.`client_budget`, `estate_type`.`estate_type_name`
 FROM `clients`
-INNER JOIN `client_search` ON `client_search`.`id` = `clients`.`id`
-INNER JOIN `estet_type` ON `estet_type`.`id` = `client_search`.`id_estet_type`;
+INNER JOIN `estate_type` ON `estate_type`.`id` = `clients`.`id`
+INNER JOIN `client_search` ON `client_search`.`id_estet_type` = `estate_type`.`id`;
