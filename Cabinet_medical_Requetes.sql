@@ -41,9 +41,9 @@ INNER JOIN `medical_office_speciality` ON `medical_office_speciality`.`id` = `me
 SELECT `medical_office_doctor`.`doctor_lastname`, `medical_office_appointment`.`appointment_date`, `medical_office_time_slot`.`appointment_time_slot`, `medical_office_patient`.`patient_lastname`, 
 `medical_office_patient`.`patient_firstname`
 FROM `medical_office_doctor`
-INNER JOIN `medical_office_appointment` ON `medical_office_appointment`.`id` = `medical_office_doctor`.`id`
+INNER JOIN `medical_office_patient` ON `medical_office_patient`.`id_medical_office_doctor` = `medical_office_doctor`.`id`
+INNER JOIN `medical_office_appointment` ON `medical_office_appointment`.`id_medical_office_patient` = `medical_office_patient`.`id`
 INNER JOIN `medical_office_time_slot` ON `medical_office_time_slot`.`id` = `medical_office_appointment`.`id_medical_office_time_slot`
-INNER JOIN `medical_office_patient` ON `medical_office_patient`.`id` = `medical_office_time_slot`.`id`
 WHERE `medical_office_doctor`.`doctor_lastname` = 'Ducobu';
 
 -- Il faudra pouvoir afficher le rendez-vous d'un patient (nom et prénom du patient, spécialité du médecin, nom et prénom du médecin, date et créneau horaire du rendez-vous).
